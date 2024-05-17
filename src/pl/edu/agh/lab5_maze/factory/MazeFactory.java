@@ -5,6 +5,17 @@ import pl.edu.agh.lab5_maze.map_sites.Room;
 import pl.edu.agh.lab5_maze.map_sites.Wall;
 
 public class MazeFactory {
+    protected static MazeFactory instance;
+
+    protected MazeFactory() {}
+
+    public static MazeFactory getInstance() {
+        if (instance == null) {
+            instance = new MazeFactory();
+        }
+        return instance;
+    }
+
     public Room createRoom() {
         return new Room();
     }

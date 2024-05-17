@@ -6,6 +6,17 @@ import pl.edu.agh.lab5_maze.map_sites.Room;
 import pl.edu.agh.lab5_maze.map_sites.Wall;
 
 public class BombedMazeFactory extends MazeFactory {
+    private BombedMazeFactory() {
+        super();
+    }
+
+    public static MazeFactory getInstance() {
+        if (instance == null) {
+            instance = new BombedMazeFactory();
+        }
+        return instance;
+    }
+
     @Override
     public Room createSpecialRoom() {
         return new BombedRoom();

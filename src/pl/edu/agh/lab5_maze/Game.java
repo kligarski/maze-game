@@ -19,9 +19,7 @@ public class Game {
 
     public Game(String setupFilePath) {
         // TODO: determine mazeFactory
-//        mazeFactory = new MazeFactory();
-//        mazeFactory = new EnchantedMazeFactory();
-        mazeFactory = new BombedMazeFactory();
+        mazeFactory = BombedMazeFactory.getInstance();
 
         mazeConstructionDirector = new MazeConstructionDirector(setupFilePath);
         player = new Player();

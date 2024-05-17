@@ -5,6 +5,17 @@ import pl.edu.agh.lab5_maze.map_sites.Room;
 import pl.edu.agh.lab5_maze.map_sites.Wall;
 
 public class EnchantedMazeFactory extends MazeFactory {
+    private EnchantedMazeFactory() {
+        super();
+    }
+
+    public static MazeFactory getInstance() {
+        if (instance == null) {
+            instance = new EnchantedMazeFactory();
+        }
+        return instance;
+    }
+
     @Override
     public Wall createWall() {
         return new Wall('▧');
