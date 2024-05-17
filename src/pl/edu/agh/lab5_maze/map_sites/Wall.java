@@ -3,7 +3,7 @@ package pl.edu.agh.lab5_maze.map_sites;
 import pl.edu.agh.lab5_maze.Player;
 
 public class Wall implements MapSite {
-    private final char representation;
+    protected char representation;
 
     public Wall(char representation) {
         this.representation = representation;

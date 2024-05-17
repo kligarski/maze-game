@@ -45,14 +45,17 @@ public class MazeConstructionDirector {
 
         builder.addRoom(v1);
         builder.addSpecialRoom(v2);
+//        builder.addRoom(v2);
         builder.addRoom(v3);
         builder.addRoom(v4);
         builder.addRoom(v5);
 
         builder.addDoor(v1, v2);
         builder.addDoor(v2, v3);
-        builder.addDoor(v3, v4);
+//        builder.addDoor(v3, v4);
+        builder.addSpecialWall(v3, v4);
         builder.addDoor(v4, v5);
+//        builder.addSpecialWall(v4, v5);
 
         builder.addWall(v1, new Vec2d(-1, 0));
         builder.addWall(v1, new Vec2d(0, -1));

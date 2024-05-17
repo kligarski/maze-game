@@ -2,6 +2,7 @@ package pl.edu.agh.lab5_maze;
 
 import pl.edu.agh.lab5_maze.builder.CountingMazeBuilder;
 import pl.edu.agh.lab5_maze.builder.StandardMazeBuilder;
+import pl.edu.agh.lab5_maze.factory.BombedMazeFactory;
 import pl.edu.agh.lab5_maze.factory.EnchantedMazeFactory;
 import pl.edu.agh.lab5_maze.factory.MazeFactory;
 import pl.edu.agh.lab5_maze.map_sites.MapSite;
@@ -19,7 +20,8 @@ public class Game {
     public Game(String setupFilePath) {
         // TODO: determine mazeFactory
 //        mazeFactory = new MazeFactory();
-        mazeFactory = new EnchantedMazeFactory();
+//        mazeFactory = new EnchantedMazeFactory();
+        mazeFactory = new BombedMazeFactory();
 
         mazeConstructionDirector = new MazeConstructionDirector(setupFilePath);
         player = new Player();
