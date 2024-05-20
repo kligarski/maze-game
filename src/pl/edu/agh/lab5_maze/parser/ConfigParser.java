@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ConfigParser {
     private final String configFilePath;
@@ -16,16 +17,17 @@ public class ConfigParser {
     public Config getConfig() throws IOException {
         Config config = new Config();
 
-        BufferedReader reader = new BufferedReader(new FileReader(configFilePath));
+        BufferedReader reader = new BufferedReader(new FileReader(Objects.requireNonNull(this.getClass().getResource(configFilePath)).getPath()));
         String line;
         while ((line = reader.readLine()) != null) {
             String[] tokens = line.split(" ");
+            if (tokens.length < 1 || tokens[0].isEmpty()) {
+                continue;
+            }
             List<Integer> values = Arrays.stream(tokens).skip(1).map(Integer::parseInt).toList();
 
             ConfigElementType.valueOfIdentifier(tokens[0]).ifPresentOrElse(
-                    configElementType -> {
-                        config.addConfigElement(new ConfigElement(configElementType, values));
-                    },
+                    configElementType -> config.addConfigElement(new ConfigElement(configElementType, values)),
                     () -> {
                         throw new IllegalArgumentException("Unable to parse token " + tokens[0]);
                     }

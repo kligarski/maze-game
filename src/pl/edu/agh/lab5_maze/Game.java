@@ -7,21 +7,31 @@ import pl.edu.agh.lab5_maze.factory.EnchantedMazeFactory;
 import pl.edu.agh.lab5_maze.factory.MazeFactory;
 import pl.edu.agh.lab5_maze.map_sites.MapSite;
 import pl.edu.agh.lab5_maze.map_sites.Room;
+import pl.edu.agh.lab5_maze.parser.Config;
+import pl.edu.agh.lab5_maze.parser.ConfigElement;
+import pl.edu.agh.lab5_maze.parser.ConfigElementType;
+import pl.edu.agh.lab5_maze.parser.ConfigParser;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class Game {
     private final Player player;
     private final Maze maze;
-    private final MazeFactory mazeFactory;
-    private final MazeConstructionDirector mazeConstructionDirector;
+    private final Config config;
 
     public Game(String setupFilePath) {
-        // TODO: determine mazeFactory
-        mazeFactory = BombedMazeFactory.getInstance();
+        ConfigParser configParser = new ConfigParser(setupFilePath);
+        try {
+            config = configParser.getConfig();
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing config", e);
+        }
 
-        mazeConstructionDirector = new MazeConstructionDirector(setupFilePath);
+        MazeFactory mazeFactory = getMazeFactory();
+
+        MazeConstructionDirector mazeConstructionDirector = new MazeConstructionDirector(config);
         player = new Player();
 
         StandardMazeBuilder standardMazeBuilder = new StandardMazeBuilder(mazeFactory);
@@ -29,12 +39,24 @@ public class Game {
 
         maze = standardMazeBuilder.getMaze();
 
-        player.setCurrentRoom(maze.getInitialRoom());
+        player.setCurrentRoom(maze.getInitialRoom().enter(maze.getInitialRoom(), player));
 
         CountingMazeBuilder countingMazeBuilder = new CountingMazeBuilder();
         mazeConstructionDirector.make(countingMazeBuilder);
 
         System.out.println(countingMazeBuilder.getCounts());
+    }
+
+    private MazeFactory getMazeFactory() {
+        ConfigElement factoryConfig = config.getMazeFactoryConfig().orElseThrow();
+        MazeFactory mazeFactory;
+        switch (factoryConfig.getConfigElementType()) {
+            case ConfigElementType.STANDARD -> mazeFactory = MazeFactory.getInstance();
+            case ConfigElementType.ENCHANTED -> mazeFactory = EnchantedMazeFactory.getInstance();
+            case ConfigElementType.BOMBED -> mazeFactory = BombedMazeFactory.getInstance();
+            default -> throw new IllegalArgumentException("Invalid maze factory type");
+        }
+        return mazeFactory;
     }
 
     public void run() {

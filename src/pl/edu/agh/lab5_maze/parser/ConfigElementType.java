@@ -29,7 +29,7 @@ public enum ConfigElementType {
         return Optional.empty();
     }
 
-    private ConfigElementType(String configIdentifier, int numberOfParameters) {
+    ConfigElementType(String configIdentifier, int numberOfParameters) {
         this.configIdentifier = configIdentifier;
         this.numberOfParameters = numberOfParameters;
     }
