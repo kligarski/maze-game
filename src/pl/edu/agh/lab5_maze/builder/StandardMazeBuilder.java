@@ -8,6 +8,7 @@ import pl.edu.agh.lab5_maze.map_sites.Room;
 import pl.edu.agh.lab5_maze.map_sites.Wall;
 import pl.edu.agh.lab5_maze.utils.Vec2d;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class StandardMazeBuilder implements MazeBuilder {

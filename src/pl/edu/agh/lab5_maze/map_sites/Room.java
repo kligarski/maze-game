@@ -3,18 +3,28 @@ package pl.edu.agh.lab5_maze.map_sites;
 import pl.edu.agh.lab5_maze.Direction;
 import pl.edu.agh.lab5_maze.Player;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Room implements MapSite {
     private final Map<Direction, MapSite> sides;
     private final int roomNumber;
     private static int currentRoomsNumbers = 0;
+    protected char representation;
+    private final BufferedImage image;
+    private final String hint;
 
-    public Room() {
+    public Room(char representation,BufferedImage image, String hint) {
         this.roomNumber = currentRoomsNumbers++;
         this.sides = new HashMap<>();
+        this.representation = representation;
+        this.image = image;
+        this.hint = hint;
     }
 
     public int getRoomNumber() {
@@ -40,7 +50,16 @@ public class Room implements MapSite {
     }
 
     @Override
-    public char getChar() {
-        return '□';
+    public char getChar()  {
+        return representation;
+    }
+
+    @Override
+    public BufferedImage getImage(){
+        return image;
+    }
+
+    public String getHint() {
+        return hint;
     }
 }

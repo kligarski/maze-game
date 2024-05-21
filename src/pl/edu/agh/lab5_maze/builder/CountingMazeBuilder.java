@@ -7,10 +7,16 @@ public class CountingMazeBuilder implements MazeBuilder {
     private int walls = 0;
     private int doors = 0;
 
-    public String getCounts() {
-        return "Rooms: " + rooms + "\n" +
-               "Walls: " + walls + "\n" +
-               "Doors: " + doors;
+    public String getRoomsNumber() {
+        return STR."\{rooms}";
+    }
+
+    public String getWallsNumber() {
+        return STR."\{walls}";
+    }
+
+    public String getDoorsNumber() {
+        return STR."\{doors}";
     }
 
     @Override
