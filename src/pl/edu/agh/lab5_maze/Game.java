@@ -21,8 +21,6 @@ import java.util.Scanner;
 public class Game extends JPanel implements Runnable {
     private final Player player;
     private final Maze maze;
-    private final MazeFactory mazeFactory;
-    private final MazeConstructionDirector mazeConstructionDirector;
     final int START_TILE_SIZE = 16;
     final int SCALE = 3;
     protected final int TILE_SIZE = START_TILE_SIZE*SCALE;
