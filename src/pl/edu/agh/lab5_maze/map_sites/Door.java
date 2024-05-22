@@ -2,19 +2,29 @@ package pl.edu.agh.lab5_maze.map_sites;
 
 import pl.edu.agh.lab5_maze.Player;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
+
 public class Door implements MapSite {
     private boolean isOpen;
     private final Room room1;
     private final Room room2;
+    protected char representation;
+    private BufferedImage image;
 
-    public Door(Room room1, Room room2, boolean isOpen) {
+
+    public Door(Room room1, Room room2, boolean isOpen, char representation, BufferedImage image) {
         this.room1 = room1;
         this.room2 = room2;
         this.isOpen = isOpen;
+        this.representation = representation;
+        this.image = image;
     }
 
-    public Door(Room room1, Room room2) {
-        this(room1, room2, true);
+    public Door(Room room1, Room room2, char representation, BufferedImage image) {
+        this(room1, room2, true, representation, image);
     }
 
     public void setOpen(boolean open) {
@@ -43,6 +53,11 @@ public class Door implements MapSite {
 
     @Override
     public char getChar() {
-        return 'D';
+        return representation;
+    }
+
+    @Override
+    public BufferedImage getImage(){
+        return image;
     }
 }

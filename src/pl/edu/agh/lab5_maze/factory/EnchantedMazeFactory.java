@@ -4,11 +4,26 @@ import pl.edu.agh.lab5_maze.map_sites.EnchantedRoom;
 import pl.edu.agh.lab5_maze.map_sites.Room;
 import pl.edu.agh.lab5_maze.map_sites.Wall;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
+
 public class EnchantedMazeFactory extends MazeFactory {
+    private final String hint = "Find your way out of the maze, don't go back !";
     private EnchantedMazeFactory() {
         super();
     }
-
+    @Override
+    protected void uploadTextures(){
+        try {
+            this.wallImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/eWall.png")));
+            this.roomImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/eRoom.png")));
+            this.doorImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/door.png")));
+        } catch(IOException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
     public static MazeFactory getInstance() {
         if (instance == null) {
             instance = new EnchantedMazeFactory();
@@ -18,17 +33,18 @@ public class EnchantedMazeFactory extends MazeFactory {
 
     @Override
     public Wall createWall() {
-        return new Wall('▧');
+        return new Wall('▧', wallImage);
     }
 
     @Override
     public Wall createSpecialWall(Room room1, Room room2) {
-        return new Wall('▧');
+        return new Wall('▧', wallImage);
+
     }
 
     @Override
     public Room createRoom() {
-        return new EnchantedRoom();
+        return new EnchantedRoom('✥', roomImage, hint);
     }
 
     @Override
