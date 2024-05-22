@@ -25,6 +25,7 @@ public class BombedMazeFactory extends MazeFactory {
     @Override
     protected void uploadTextures(){
         try {
+            super.uploadTextures();
             bombWall = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/bombWall.png")));
             bombedWall = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/bombedWall.png")));
             this.wallImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/wall.png")));

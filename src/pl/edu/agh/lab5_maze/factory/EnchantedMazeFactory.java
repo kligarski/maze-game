@@ -5,7 +5,6 @@ import pl.edu.agh.lab5_maze.map_sites.Room;
 import pl.edu.agh.lab5_maze.map_sites.Wall;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -17,6 +16,7 @@ public class EnchantedMazeFactory extends MazeFactory {
     @Override
     protected void uploadTextures(){
         try {
+            super.uploadTextures();
             this.wallImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/eWall.png")));
             this.roomImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/eRoom.png")));
             this.doorImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/door.png")));

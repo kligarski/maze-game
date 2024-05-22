@@ -14,6 +14,7 @@ public class MazeFactory {
     protected BufferedImage wallImage;
     protected BufferedImage roomImage;
     protected BufferedImage doorImage;
+    protected BufferedImage specialDoorImage;
     protected MazeFactory() {
         uploadTextures();
     }
@@ -25,6 +26,7 @@ public class MazeFactory {
             this.wallImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/wall.png")));
             this.roomImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/room.png")));
             this.doorImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/door.png")));
+            this.specialDoorImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("mapSite/closedDoor.png")));
         } catch(IOException e) {
             throw new IllegalArgumentException(e);
         }
@@ -58,6 +60,6 @@ public class MazeFactory {
     }
 
     public Door createSpecialDoor(Room room1, Room room2) {
-        return new Door(room1, room2, false, '☐', doorImage);
+        return new Door(room1, room2, false, '☐', specialDoorImage);
     }
 }

@@ -4,7 +4,7 @@ Room 0 0
 SpecialRoom 0 1
 Room 1 1
 
-Door 0 0 0 1
+SpecialDoor 0 0 0 1
 SpecialWall 0 1 1 1
 
 Wall 0 0 -1 0

@@ -25,6 +25,7 @@ public class MazeConstructionDirector {
     public void make(MazeBuilder builder) {
         for (ConfigElement configElement : config.getConfigElements()) {
             List<Integer> values = new LinkedList<>(configElement.getValues());
+            System.out.println(configElement.getConfigElementType().toString() + " " + values);
             switch (configElement.getConfigElementType()) {
                 case ROOM -> builder.addRoom(createVec2dFromList(values));
                 case SPECIAL_ROOM -> builder.addSpecialRoom(createVec2dFromList(values));
