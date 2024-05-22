@@ -7,6 +7,10 @@ import pl.edu.agh.lab5_maze.factory.EnchantedMazeFactory;
 import pl.edu.agh.lab5_maze.factory.MazeFactory;
 import pl.edu.agh.lab5_maze.map_sites.MapSite;
 import pl.edu.agh.lab5_maze.map_sites.Room;
+import pl.edu.agh.lab5_maze.parser.Config;
+import pl.edu.agh.lab5_maze.parser.ConfigElement;
+import pl.edu.agh.lab5_maze.parser.ConfigElementType;
+import pl.edu.agh.lab5_maze.parser.ConfigParser;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +34,7 @@ public class Game extends JPanel implements Runnable {
     private final KeyHandler keyH;
     private final TileManager tileManager;
     private final UI ui;
+    private final Config config;
 
     public void startGameThread(){
         gameThread = new Thread(this);
@@ -37,10 +42,16 @@ public class Game extends JPanel implements Runnable {
     }
 
     public Game(String setupFilePath) throws IOException {
-        // TODO: determine mazeFactory
-        mazeFactory = BombedMazeFactory.getInstance();
+        ConfigParser configParser = new ConfigParser(setupFilePath);
+        try {
+            config = configParser.getConfig();
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing config", e);
+        }
 
-        mazeConstructionDirector = new MazeConstructionDirector(setupFilePath);
+        MazeFactory mazeFactory = getMazeFactory();
+
+        MazeConstructionDirector mazeConstructionDirector = new MazeConstructionDirector(config);
         player = new Player(this);
         tileManager = new TileManager(this, player);
 
@@ -49,7 +60,7 @@ public class Game extends JPanel implements Runnable {
 
         maze = standardMazeBuilder.getMaze();
 
-        player.setCurrentRoom(maze.getInitialRoom());
+        player.setCurrentRoom(maze.getInitialRoom().enter(maze.getInitialRoom(), player));
 
         CountingMazeBuilder countingMazeBuilder = new CountingMazeBuilder();
         mazeConstructionDirector.make(countingMazeBuilder);
@@ -62,6 +73,18 @@ public class Game extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
+    }
+
+    private MazeFactory getMazeFactory() {
+        ConfigElement factoryConfig = config.getMazeFactoryConfig().orElseThrow();
+        MazeFactory mazeFactory;
+        switch (factoryConfig.getConfigElementType()) {
+            case ConfigElementType.STANDARD -> mazeFactory = MazeFactory.getInstance();
+            case ConfigElementType.ENCHANTED -> mazeFactory = EnchantedMazeFactory.getInstance();
+            case ConfigElementType.BOMBED -> mazeFactory = BombedMazeFactory.getInstance();
+            default -> throw new IllegalArgumentException("Invalid maze factory type");
+        }
+        return mazeFactory;
     }
 
     @Override

@@ -10,7 +10,7 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Maze");
 
-        Game gamePanel = new Game("abc");
+        Game gamePanel = new Game("/TestConfig.txt");
         window.add(gamePanel);
         window.pack();
         window.setLocationRelativeTo(null);
